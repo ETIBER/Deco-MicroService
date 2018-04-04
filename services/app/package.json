@@ -1,0 +1,26 @@
+{
+  "name": "deco-monolithe",
+  "version": "1.0.0",
+  "description": "A phantom monolyte to be fragmented",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ETIBER/Deco-Monolithe.git"
+  },
+  "author": "Etienne Bernoux",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ETIBER/Deco-Monolithe/issues"
+  },
+  "homepage": "https://github.com/ETIBER/Deco-Monolithe#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "express-request-id": "^1.4.0",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {}
+}

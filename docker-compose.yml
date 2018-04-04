@@ -1,0 +1,33 @@
+version: '3.5'
+services:
+  service_virement_externe:
+    build:
+      context: services/
+    env_file:
+      - ./services/env/virement_externe.env
+    ports:
+    - "3000:3000"
+    working_dir: /src/app
+    command: "npm start"
+    depends_on:
+      - logstash_virement_externe
+    networks:
+      - log
+  logstash_virement_externe:
+    build:
+      context: logstash/
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5000:5000"
+      - "5101:5101"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - log
+
+networks:
+
+  log:
+    driver: bridge
