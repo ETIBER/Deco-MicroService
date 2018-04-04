@@ -15,6 +15,13 @@ const app = express()
 
 const morganFormat = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :request_id :service_name'
 
+morgan.token(' content_lenth', function (req, res) {
+	if (res[content-length] !== undefined) {
+		return res[content-length]
+	} else {
+		return 0
+	}
+})
 morgan.token('request_id', function (req, res) { return req.id })
 morgan.token('service_name', function (req, res) { return SERVICE_NAME })
 
