@@ -6,7 +6,7 @@ services:
     env_file:
       - ./services/env/virement_externe.env
     ports:
-    - "3000:3000"
+    - "3001:3001"
     working_dir: /src/app
     command: "npm start"
     depends_on:
@@ -16,12 +16,44 @@ services:
   logstash_virement_externe:
     build:
       context: logstash/
+    env_file:
+      - ./services/env/virement_externe.env
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5001:5001"
+      - "5101:5101"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - log
+
+
+  service_virement_interne:
+    build:
+      context: services/
+    env_file:
+      - ./services/env/virement_interne.env
+    ports:
+    - "3002:3002"
+    working_dir: /src/app
+    command: "npm start"
+    depends_on:
+      - logstash_virement_interne
+    networks:
+      - log
+  logstash_virement_interne:
+    build:
+      context: logstash/
+    env_file:
+      - ./services/env/virement_interne.env
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
     ports:
       - "5000:5000"
-      - "5101:5101"
+      - "5102:5102"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:

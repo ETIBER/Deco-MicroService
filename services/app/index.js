@@ -33,5 +33,5 @@ app.get(`/${SERVICE_ROUTE}`, function (req, res) {
 })
 
 app.listen(SERVER_PORT, function () {
-  console.log(`My monolyte listen on ${SERVER_PORT}`)
+  console.log(`My ${SERVICE_NAME} listen on ${SERVER_PORT}`)
 })
