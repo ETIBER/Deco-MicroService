@@ -19,7 +19,7 @@ morgan.token(' content_lenth', function (req, res) {
 	if (res[content-length] !== undefined) {
 		return res[content-length]
 	} else {
-		return 0
+		return '0'
 	}
 })
 morgan.token('request_id', function (req, res) { return req.id })
