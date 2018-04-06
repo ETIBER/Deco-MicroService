@@ -29,7 +29,6 @@ services:
     networks:
       - log
 
-
   service_virement_interne:
     build:
       context: services/
@@ -52,8 +51,95 @@ services:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
     ports:
-      - "5000:5000"
+      - "5002:5002"
       - "5102:5102"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - log
+
+  service_consultation_solde:
+    build:
+      context: services/
+    env_file:
+      - ./services/env/consultation_solde.env
+    ports:
+    - "3003:3003"
+    working_dir: /src/app
+    command: "npm start"
+    depends_on:
+      - logstash_consultation_solde
+    networks:
+      - log
+  logstash_consultation_solde:
+    build:
+      context: logstash/
+    env_file:
+      - ./services/env/consultation_solde.env
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5003:5003"
+      - "5103:5103"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - log
+
+  service_opposition_carte:
+    build:
+      context: services/
+    env_file:
+      - ./services/env/opposition_carte.env
+    ports:
+    - "3004:3004"
+    working_dir: /src/app
+    command: "npm start"
+    depends_on:
+      - logstash_opposition_carte
+    networks:
+      - log
+  logstash_opposition_carte:
+    build:
+      context: logstash/
+    env_file:
+      - ./services/env/opposition_carte.env
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5004:5004"
+      - "5104:5104"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - log
+
+  service_plafond_carte:
+    build:
+      context: services/
+    env_file:
+      - ./services/env/plafond_carte.env
+    ports:
+    - "3005:3005"
+    working_dir: /src/app
+    command: "npm start"
+    depends_on:
+      - logstash_plafond_carte
+    networks:
+      - log
+  logstash_plafond_carte:
+    build:
+      context: logstash/
+    env_file:
+      - ./services/env/plafond_carte.env
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - "5005:5005"
+      - "5105:5105"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
